@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This is a page</title>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0-beta6/dist/htmx.min.js" integrity="sha384-6lyVbhrs13b9z7mLOpt/N6R76rtkEBWgCjAXRs/DSWyi2AMnQSs10ijWk+PI8n7W" crossorigin="anonymous"></script>
+    <style>
+        #title-suggestions p { cursor: pointer; padding: 2px 4px; transition: background-color 0.15s ease; }
+        #title-suggestions p:hover,
+        #title-suggestions p.active { background: #dbeafe; }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <h2>Add movies you have watched and lets find similar movies</h2>
+    <button>Reset</button>
+    <form hx-get="/movies/search-title" hx-target="#watched-movies">
+        <input type="text" name="title" autocomplete="off"
+               hx-get="/movies/search-title"
+               hx-target="#title-suggestions"
+               hx-trigger="keyup changed delay:400ms, search" />
+        <button type="submit">Add movie</button>
+    </form>
+    <div id="title-suggestions"></div>
+    <div id="watched-movies" style="border: 1px solid darkred"></div>
+    {% endblock content %}
+    <script src="/static/script.js"></script>
+</body>
+</html>
