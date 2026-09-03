@@ -10,12 +10,18 @@ engine = create_engine(db_url, echo=True, connect_args={"check_same_thread": Fal
 class MovieTitle(SQLModel):
     id: int
     title: str
+    poster_path: str
+    overview: str
+    vote_average: float
 
 class Movie(SQLModel, table=True):
     __tablename__ = "movies"
     id: int | None = Field(default=None, primary_key=True)
     title: str = Field(index=True)
+    poster_path: str
     overview: str
+    release_date: str
+    vote_average: float
 
 def select_movies_by_title(title: str):
     with Session(engine) as session:

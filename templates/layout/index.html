@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>This is a page</title>
+    <title>Movie suggest</title>
+    <link rel="stylesheet" href="/static/pico.min.css">
+    <link rel="stylesheet" href="/static/app.css">
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0-beta6/dist/htmx.min.js" integrity="sha384-6lyVbhrs13b9z7mLOpt/N6R76rtkEBWgCjAXRs/DSWyi2AMnQSs10ijWk+PI8n7W" crossorigin="anonymous"></script>
     <style>
-        #title-suggestions p { cursor: pointer; padding: 2px 4px; transition: background-color 0.15s ease; }
-        #title-suggestions p:hover,
-        #title-suggestions p.active { background: #dbeafe; }
+
     </style>
 </head>
 <body>
+    <main class="container">
     {% block content %}
-    <h2>Add movies you have watched and lets find similar movies</h2>
-    <button>Reset</button>
-    <form hx-get="/movies/search-title" hx-target="#watched-movies">
-        <input type="text" name="title" autocomplete="off"
-               hx-get="/movies/search-title"
-               hx-target="#title-suggestions"
-               hx-trigger="keyup changed delay:400ms, search" />
-        <button type="submit">Add movie</button>
-    </form>
-    <div id="title-suggestions"></div>
-    <div id="watched-movies" style="border: 1px solid darkred"></div>
+        <h2>Add movies you have watched to find similar movies</h2>
+        <form hx-get="/movies/search-title" hx-target="#watched-movies">
+            <input type="text" name="title" autocomplete="off" placeholder="Find a movie by title"
+                hx-get="/movies/search-title"
+                hx-target="#title-suggestions"
+                hx-trigger="keyup changed delay:400ms, search" />
+        </form>
+        <div id="title-suggestions"></div>
+        <h4>Selected movies</h4>
+        <div id="watched-movies"></div>
+        <button type="submit">Suggest similar movies</button>
+    </main>
     {% endblock content %}
     <script src="/static/script.js"></script>
 </body>

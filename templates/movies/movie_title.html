@@ -1,3 +1,11 @@
 {% for movie in movies %}
-<p>{{ movie.title }}</p>
+<div class="grid movie">
+    <img src="https://image.tmdb.org/t/p/w92/{{ movie.poster_path }}" alt="{{ movie.title }} poster" />
+    <div class="movie-info">
+        <div class="movie-title">{{ movie.title }}</div>
+        <div class="movie-overview">{{ movie.overview[:100] }}...</div>
+        <div class="movie-release-date">📅 {{ movie.release_date | short_date }}</div>
+        <div class="movie-vote-average">⭐ {{ movie.vote_average | round(2) }}</div>
+    </div>
+</div>
 {% endfor %}

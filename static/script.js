@@ -1,7 +1,7 @@
 let activeIdx = -1;
 
 function items() {
-  return document.querySelectorAll('#title-suggestions p');
+  return document.querySelectorAll('#title-suggestions .movie');
 }
 
 function highlight() {
@@ -9,10 +9,23 @@ function highlight() {
 }
 
 function selectSuggestion(p) {
-  document.getElementById('watched-movies').append(p.cloneNode(true));
+  const selected = p.cloneNode(true);
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.className = 'remove-movie';
+  removeBtn.textContent = '×';
+  removeBtn.setAttribute('aria-label', 'Remove ' + (selected.querySelector('.movie-title')?.textContent ?? 'movie'));
+  selected.append(removeBtn);
+  document.getElementById('watched-movies').append(selected);
   p.remove();
   activeIdx = -1;
 }
+
+document.getElementById('watched-movies').addEventListener('click', (e) => {
+  if (e.target.closest('.remove-movie')) {
+    e.target.closest('.movie')?.remove();
+  }
+});
 
 document.body.addEventListener('htmx:configRequest', (e) => {
   const elt = e.detail.elt;
@@ -24,7 +37,7 @@ document.body.addEventListener('htmx:configRequest', (e) => {
 });
 
 document.getElementById('title-suggestions').addEventListener('click', (e) => {
-  const p = e.target.closest('p');
+  const p = e.target.closest('.movie');
   if (p) selectSuggestion(p);
 });
 

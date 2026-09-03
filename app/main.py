@@ -3,7 +3,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from .schemas import Movie
 from app import db
 
 
@@ -12,6 +11,11 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
+def short_date(value: str) -> str:
+    return datetime.strptime(value, "%Y-%m-%d").strftime("%b %d, %Y")
+
+templates.env.filters["short_date"] = short_date
 
 movies: list[dict] = [
     {
