@@ -1,4 +1,5 @@
-from sqlmodel import SQLModel, Field, create_engine, Session, select
+import json
+from sqlmodel import SQLModel, Field, create_engine, Session, select, col
 from pathlib import Path
 
 current_dir = Path(__file__).resolve().parent
@@ -27,6 +28,15 @@ def select_movies_by_title(title: str):
     with Session(engine) as session:
         statement = select(Movie).where(Movie.title.ilike(f"%{title}%"))
         return session.exec(statement).all()
+
+def select_movies_by_ids(ids: list[int]) -> list[Movie]:
+    """
+        Get all movies for the with the matching ids.
+    """
+    with Session(engine) as session:
+        statement = select(Movie).where(col(Movie.id).in_(ids))
+        result = session.scalars(statement).all()
+    return result
 
 def create_database():
     SQLModel.metadata.create_all(engine)
