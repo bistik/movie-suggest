@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from datetime import datetime, UTC
 from fastapi import FastAPI, Request, Query
 from fastapi.responses import HTMLResponse
@@ -41,10 +42,16 @@ async def search_title(request: Request, title: str):
 
 @app.get("/movies/suggest", response_class=HTMLResponse)
 async def suggest_similar(request: Request, ids: list[str] = Query(None)):
-    # For now we only use the first movie
-    movies = db.select_movies_by_ids([int(id) for id in ids])
-    if movies:
-        similar_ids = chroma.find_similar('chroma_data', movies[0])[0]
-        logger.warning('similar ids %s for query id %s', similar_ids, ids)
-        suggested_movies = db.select_movies_by_ids([int(id) for id in similar_ids])
-    return templates.TemplateResponse(request=request, name="movies/movie_suggest.html", context={"movies": suggested_movies})
+    movies = db.select_movies_by_ids([int(id) for id in ids]) if ids else []
+    # Use up to the first 3 watched movies, 3 suggestions each
+    connections = defaultdict(list)
+    for watched, similar_ids in chroma.find_similar('chroma_data', movies[:3]):
+        for sid in similar_ids:
+            connections[int(sid)].append(watched)
+    suggested = db.select_movies_by_ids(list(connections))
+    by_id = {movie.id: movie for movie in suggested}
+    results = [(by_id[sid], watched) for sid, watched in connections.items() if sid in by_id]
+    logger.info('suggestions for watched ids %s: %s', ids,
+                {sid: [w.id for w in watched] for sid, watched in connections.items()})
+    return templates.TemplateResponse(request=request, name="movies/movie_suggest.html",
+                                      context={"results": results, "no_selection": not ids})

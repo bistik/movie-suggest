@@ -1,5 +1,5 @@
 #watched-movies {
-  margin: 12px 0;
+  margin: 12px 0 30px;
   border: 1px solid #cecece;
   min-height: 100px;
 }
@@ -44,6 +44,13 @@ button.remove-movie:hover {
   grid-template-columns: auto 1fr;
 }
 
+#suggested-movies .movie-watched {
+  margin-top: 6px;
+  font-size: 0.8em;
+  font-style: italic;
+  color: var(--pico-muted-color);
+}
+
 #watched-movies .movie-title,
 #suggested-movies .movie-title,
 #title-suggestions .movie-title {
@@ -64,4 +71,8 @@ button.remove-movie:hover {
 #title-suggestions .movie-release-date,
 #title-suggestions .movie-vote-average {
   filter: grayscale(100%);
+}
+
+#suggest-form {
+    margin-bottom: 30px;
 }

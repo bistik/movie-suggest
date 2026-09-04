@@ -26,7 +26,10 @@ class Movie(SQLModel, table=True):
     vote_average: float
     tmdb_id: int
 
-def select_movies_by_title(title: str):
+def select_movies_by_title(title: str) -> Sequence[Movie]:
+    """
+        Get all movies for the with the matching title.
+    """
     with Session(engine) as session:
         statement = select(Movie).where(col(Movie.title).ilike(f"%{title}%"))
         return session.exec(statement).all()
@@ -37,8 +40,7 @@ def select_movies_by_ids(ids: list[int]) -> Sequence[Movie]:
     """
     with Session(engine) as session:
         statement = select(Movie).where(col(Movie.id).in_(ids))
-        result = session.exec(statement).all()
-    return result
+        return session.exec(statement).all()
 
 def create_database():
     SQLModel.metadata.create_all(engine)

@@ -1,23 +1,34 @@
-{% for movie in movies %}
-<div class="grid movie" data-movie-id="{{ movie.id }}">
-  <img
-    src="https://image.tmdb.org/t/p/w92/{{ movie.poster_path }}"
-    alt="{{ movie.title }} poster"
-  />
-  <div class="movie-info">
-    <div class="movie-title">{{ movie.title }}</div>
-    <div class="movie-overview">{{ movie.overview[:100] }}...</div>
-    <div class="movie-release-date">
-      📅 {{ movie.release_date | short_date }}
+{% if results %}
+    <h4>Suggested movies</h4>
+{% elif no_selection %}
+    <p>No movies were selected.</p>
+{% else %}
+    <p>No similar movies found.</p>
+{% endif %}
+
+{% for movie, watched_list in results %}
+    <div class="grid movie" data-movie-id="{{ movie.id }}" data-watched-ids="{{ watched_list | map(attribute='id') | join(',') }}">
+    <img
+        src="https://image.tmdb.org/t/p/w92/{{ movie.poster_path }}"
+        alt="{{ movie.title }} poster"
+    />
+    <div class="movie-info">
+        <div class="movie-title">{{ movie.title }}</div>
+        <div class="movie-overview">{{ movie.overview[:100] }}...</div>
+        <div class="movie-release-date">
+        📅 {{ movie.release_date | short_date }}
+        </div>
+        <div class="movie-vote-average">⭐ {{ movie.vote_average | round(2) }}</div>
+        <div class="movie-tmdb-link">
+        <a
+            href="https://www.themoviedb.org/movie/{{ movie.tmdb_id }}"
+            target="_blank"
+            >TMDB link</a
+        >
+        </div>
+        <div class="movie-watched">
+        Because you watched: {{ watched_list | map(attribute='title') | join(', ') }}
+        </div>
     </div>
-    <div class="movie-vote-average">⭐ {{ movie.vote_average | round(2) }}</div>
-    <div class="movie-tmdb-link">
-      <a
-        href="https://www.themoviedb.org/movie/{{ movie.tmdb_id }}"
-        target="_blank"
-        >TMDB link</a
-      >
     </div>
-  </div>
-</div>
 {% endfor %}

@@ -41,15 +41,6 @@ document.getElementById('watched-movies').addEventListener('click', (e) => {
   }
 });
 
-document.body.addEventListener('htmx:configRequest', (e) => {
-  const elt = e.detail.elt;
-  if (elt?.name === 'title' && elt.value.trim().length < 2) {
-    e.preventDefault();
-    document.getElementById('title-suggestions').innerHTML = '';
-    activeIdx = -1;
-  }
-});
-
 document.getElementById('title-suggestions').addEventListener('click', (e) => {
   const p = e.target.closest('.movie');
   if (p) selectSuggestion(p);
@@ -73,9 +64,4 @@ document.querySelector('input[name="title"]').addEventListener('keydown', (e) =>
     document.getElementById('title-suggestions').innerHTML = '';
     activeIdx = -1;
   }
-});
-
-document.getElementById('title-suggestions').addEventListener('htmx:afterSwap', () => {
-  activeIdx = -1;
-  highlight();
 });

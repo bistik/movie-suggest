@@ -1,3 +1,4 @@
+from typing import Sequence
 from app.db import Movie
 import chromadb
 import logging
@@ -22,19 +23,27 @@ def _get_embeddings(dbpath: str, id: int | None) -> list[list[float]]:
     logger.info("No embeddings found for ID %s", id)
     return [[]]
 
-def find_similar(dbpath: str, movie: Movie, count: int = 3) -> list[list[str]]:
-    embeddings = _get_embeddings(dbpath, movie.id)
+def find_similar(dbpath: str, movies: Sequence[Movie], count: int = 3) -> list[tuple[Movie, list[str]]]:
+    query_embeddings = []
+    origin_movies = []
+    for movie in movies:
+        for embedding in _get_embeddings(dbpath, movie.id):
+            if len(embedding):
+                query_embeddings.append(embedding)
+                origin_movies.append(movie)
+    if not query_embeddings:
+        logger.info("No embeddings found for movies %s", movies)
+        return []
     collection = _get_collection(dbpath)
-    if embeddings is not None and len(embeddings) > 0:
-        results = collection.query(
-            query_embeddings=embeddings,
-            n_results=count,
-            where={
-                "title": {"$ne": movie.title}
-            }
-        )
-        if results['ids']:
-            logger.debug('results distances (ID, distance) %s', list(zip(results['ids'], results['distances'])))
-            return results['ids']
-    logger.info("No embeddings found for movie %s", movie)
-    return [[]]
+    results = collection.query(
+        query_embeddings=query_embeddings,
+        n_results=count,
+        where={
+            "title": {"$nin": [movie.title for movie in movies]}
+        }
+    )
+    if results['ids']:
+        logger.debug('results distances (ID, distance) %s', list(zip(results['ids'], results['distances'])))
+        return list(zip(origin_movies, results['ids']))
+    logger.info("No similar movies found for movies %s", movies)
+    return []
