@@ -20,7 +20,7 @@
             <div id="title-suggestions"></div>
             <h4>Selected movies</h4>
             <div id="watched-movies"></div>
-            <form hx-get="/movies/suggest" hx-target="#suggested-movies">
+            <form id="suggest-form" hx-get="/movies/suggest" hx-target="#suggested-movies">
                 <button type="submit">Suggest similar movies</button>
             </form>
             <div id="suggested-movies"></div>

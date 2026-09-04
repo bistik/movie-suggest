@@ -39,14 +39,12 @@ async def search_title(request: Request, title: str):
     movies = db.select_movies_by_title(title)
     return templates.TemplateResponse(request=request, name="movies/movie_title.html", context={"movies": movies})
 
-@app.get("/movies/suggest")
-async def suggest_similar(ids: list[str] = Query(None)):
-    # movies = db.select_movies_by_ids([int(id) for id in ids])
+@app.get("/movies/suggest", response_class=HTMLResponse)
+async def suggest_similar(request: Request, ids: list[str] = Query(None)):
+    # For now we only use the first movie
     movies = db.select_movies_by_ids([int(id) for id in ids])
     if movies:
-        similar_ids = chroma.find_similar('chroma_data', movies[0])
-    logger.warning('similar ids %s', similar_ids)
-    return movies[0].title
-    # logger.warning('movies %s', movies)
-    # chroma.find_similar
-    # return movies
+        similar_ids = chroma.find_similar('chroma_data', movies[0])[0]
+        logger.warning('similar ids %s for query id %s', similar_ids, ids)
+        suggested_movies = db.select_movies_by_ids([int(id) for id in similar_ids])
+    return templates.TemplateResponse(request=request, name="movies/movie_suggest.html", context={"movies": suggested_movies})

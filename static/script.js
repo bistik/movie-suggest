@@ -17,13 +17,27 @@ function selectSuggestion(p) {
   removeBtn.setAttribute('aria-label', 'Remove ' + (selected.querySelector('.movie-title')?.textContent ?? 'movie'));
   selected.append(removeBtn);
   document.getElementById('watched-movies').append(selected);
+  const movieId = p.dataset.movieId;
+  if (movieId) {
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'ids';
+    hiddenInput.value = movieId;
+    document.getElementById('suggest-form').append(hiddenInput);
+  }
   p.remove();
   activeIdx = -1;
 }
 
 document.getElementById('watched-movies').addEventListener('click', (e) => {
-  if (e.target.closest('.remove-movie')) {
-    e.target.closest('.movie')?.remove();
+  const removeBtn = e.target.closest('.remove-movie');
+  if (removeBtn) {
+    const movie = removeBtn.closest('.movie');
+    const movieId = movie?.dataset.movieId;
+    if (movieId) {
+      document.querySelector(`#suggest-form input[name="ids"][value="${movieId}"]`)?.remove();
+    }
+    movie?.remove();
   }
 });
 

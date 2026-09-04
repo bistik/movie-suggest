@@ -1,5 +1,5 @@
 {% for movie in movies %}
-<div class="grid movie">
+<div class="grid movie" data-movie-id="{{ movie.id }}">
     <img src="https://image.tmdb.org/t/p/w92/{{ movie.poster_path }}" alt="{{ movie.title }} poster" />
     <div class="movie-info">
         <div class="movie-title">{{ movie.title }}</div>

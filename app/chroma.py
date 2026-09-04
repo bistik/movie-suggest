@@ -11,7 +11,7 @@ def _get_collection(dbpath: str, collection_name: str = "tmdb"):
     )
     return collection
 
-def _get_embeddings(dbpath: str, id: int | None):
+def _get_embeddings(dbpath: str, id: int | None) -> list[list[float]]:
     collection = _get_collection(dbpath)
     results = collection.get(
         ids=[str(id)],
@@ -20,8 +20,9 @@ def _get_embeddings(dbpath: str, id: int | None):
     if results["ids"] and len(results["embeddings"]) > 0:
         return results["embeddings"]
     logger.info("No embeddings found for ID %s", id)
+    return [[]]
 
-def find_similar(dbpath: str, movie: Movie, count: int = 3):
+def find_similar(dbpath: str, movie: Movie, count: int = 3) -> list[list[str]]:
     embeddings = _get_embeddings(dbpath, movie.id)
     collection = _get_collection(dbpath)
     if embeddings is not None and len(embeddings) > 0:
@@ -36,3 +37,4 @@ def find_similar(dbpath: str, movie: Movie, count: int = 3):
             logger.debug('results distances (ID, distance) %s', list(zip(results['ids'], results['distances'])))
             return results['ids']
     logger.info("No embeddings found for movie %s", movie)
+    return [[]]

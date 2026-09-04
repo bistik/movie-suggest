@@ -1,55 +1,67 @@
 #watched-movies {
-    margin: 12px 0;
-    border: 1px solid #cecece;
-    min-height: 100px;
+  margin: 12px 0;
+  border: 1px solid #cecece;
+  min-height: 100px;
 }
 
+#suggested-movies .movie,
 #watched-movies .movie {
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    padding: 6px 8px;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 6px 8px;
 }
 
 button.remove-movie {
-    border: 1px solid var(--pico-del-color);
-    border-radius: var(--pico-border-radius);
-    background-color: var(--pico-del-color);
-    padding: 6px 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 1;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.15s ease, filter 0.15s ease;
+  border: 1px solid var(--pico-del-color);
+  border-radius: var(--pico-border-radius);
+  background-color: var(--pico-del-color);
+  padding: 6px 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    filter 0.15s ease;
 }
 
 button.remove-movie:hover {
-    filter: brightness(0.85);
+  filter: brightness(0.85);
 }
 
 #title-suggestions > div {
-    cursor: pointer;
-    padding: 2px 4px;
-    transition: background-color 0.15s ease;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: background-color 0.15s ease;
 }
 #title-suggestions > div:hover,
 #title-suggestions > div.active {
-    background-color: rgb(240 240 240 / 40%);
+  background-color: rgb(240 240 240 / 40%);
 }
 
 #title-suggestions .movie {
-    grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr;
 }
 
+#watched-movies .movie-title,
+#suggested-movies .movie-title,
 #title-suggestions .movie-title {
-    font-weight: bold;
-    font-size: 1.05rem;
+  font-weight: bold;
+  font-size: 1.05rem;
 }
 
 #title-suggestions .movie-release-date,
 #title-suggestions .movie-vote-average {
-    margin-top: 6px;
-    font-size: 0.85em;
-    color: var(--pico-muted-color);
-    filter: grayscale(100%)
+  margin-top: 6px;
+  font-size: 0.85em;
+  color: var(--pico-muted-color);
+}
+#suggested-movies .movie-release-date,
+#suggested-movies .movie-vote-average,
+#watched-movies .movie-release-date,
+#watched-movies .movie-vote-average,
+#title-suggestions .movie-release-date,
+#title-suggestions .movie-vote-average {
+  filter: grayscale(100%);
 }

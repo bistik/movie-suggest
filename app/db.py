@@ -1,3 +1,4 @@
+from typing import Sequence
 import json
 from sqlmodel import SQLModel, Field, create_engine, Session, select, col
 from pathlib import Path
@@ -23,19 +24,20 @@ class Movie(SQLModel, table=True):
     overview: str
     release_date: str
     vote_average: float
+    tmdb_id: int
 
 def select_movies_by_title(title: str):
     with Session(engine) as session:
-        statement = select(Movie).where(Movie.title.ilike(f"%{title}%"))
+        statement = select(Movie).where(col(Movie.title).ilike(f"%{title}%"))
         return session.exec(statement).all()
 
-def select_movies_by_ids(ids: list[int]) -> list[Movie]:
+def select_movies_by_ids(ids: list[int]) -> Sequence[Movie]:
     """
         Get all movies for the with the matching ids.
     """
     with Session(engine) as session:
         statement = select(Movie).where(col(Movie.id).in_(ids))
-        result = session.scalars(statement).all()
+        result = session.exec(statement).all()
     return result
 
 def create_database():
