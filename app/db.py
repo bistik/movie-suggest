@@ -1,10 +1,11 @@
 from typing import Sequence
 import json
+import os
 from sqlmodel import SQLModel, Field, create_engine, Session, select, col
 from pathlib import Path
 
 current_dir = Path(__file__).resolve().parent
-outside_db_path = current_dir.parent / "tmdbdf.db"
+outside_db_path = Path(os.getenv("SQLITE_PATH", current_dir.parent / "tmdbdf.db"))
 db_url = f"sqlite:///{outside_db_path.as_posix()}"
 
 engine = create_engine(db_url, echo=True, connect_args={"check_same_thread": False})

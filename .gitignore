@@ -12,3 +12,9 @@ wheels/
 # database
 tmdbdf.db
 chroma_data/
+
+# local env
+.env
+
+# docs
+docs/

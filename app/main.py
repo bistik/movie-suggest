@@ -1,4 +1,5 @@
 import logging
+import os
 from collections import defaultdict
 from datetime import datetime, UTC
 from fastapi import FastAPI, Request, Query
@@ -17,6 +18,8 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+chroma_path = os.getenv("CHROMA_PATH", "chroma_data")
 
 app = FastAPI()
 
@@ -45,7 +48,7 @@ async def suggest_similar(request: Request, ids: list[str] = Query(None)):
     movies = db.select_movies_by_ids([int(id) for id in ids]) if ids else []
     # Use up to the first 3 watched movies, 3 suggestions each
     connections = defaultdict(list)
-    for watched, similar_ids in chroma.find_similar('chroma_data', movies[:3]):
+    for watched, similar_ids in chroma.find_similar(chroma_path, movies[:3]):
         for sid in similar_ids:
             connections[int(sid)].append(watched)
     suggested = db.select_movies_by_ids(list(connections))
