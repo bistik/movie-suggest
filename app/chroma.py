@@ -13,6 +13,7 @@ def _get_collection(dbpath: str, collection_name: str = "tmdb"):
     return collection
 
 def _get_embeddings(dbpath: str, id: int | None) -> list[list[float]]:
+    logger.info("Get embeddings for ID %s", id)
     collection = _get_collection(dbpath)
     results = collection.get(
         ids=[str(id)],

@@ -1,7 +1,7 @@
 from typing import Sequence
 import json
 import os
-from sqlmodel import SQLModel, Field, create_engine, Session, select, col
+from sqlmodel import SQLModel, Field, create_engine, Session, select, col, desc
 from pathlib import Path
 
 current_dir = Path(__file__).resolve().parent
@@ -32,7 +32,7 @@ def select_movies_by_title(title: str) -> Sequence[Movie]:
         Get all movies for the with the matching title.
     """
     with Session(engine) as session:
-        statement = select(Movie).where(col(Movie.title).ilike(f"%{title}%"))
+        statement = select(Movie).where(col(Movie.title).ilike(f"%{title}%")).order_by(desc(Movie.vote_average))
         return session.exec(statement).all()
 
 def select_movies_by_ids(ids: list[int]) -> Sequence[Movie]:
