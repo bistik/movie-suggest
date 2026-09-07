@@ -47,6 +47,12 @@ document.getElementById('title-suggestions').addEventListener('click', (e) => {
 });
 
 document.querySelector('input[name="title"]').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const list = items();
+    if (list.length) selectSuggestion(list[activeIdx >= 0 ? activeIdx : 0]);
+    e.preventDefault();
+    return;
+  }
   const list = items();
   if (!list.length) return;
   if (e.key === 'ArrowDown') {
@@ -56,9 +62,6 @@ document.querySelector('input[name="title"]').addEventListener('keydown', (e) =>
   } else if (e.key === 'ArrowUp') {
     activeIdx = (activeIdx - 1 + list.length) % list.length;
     highlight();
-    e.preventDefault();
-  } else if (e.key === 'Enter' && activeIdx >= 0) {
-    selectSuggestion(list[activeIdx]);
     e.preventDefault();
   } else if (e.key === 'Escape') {
     document.getElementById('title-suggestions').innerHTML = '';

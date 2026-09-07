@@ -11,12 +11,10 @@
     <main class="container">
         {% block content %}
             <h2>Add movies you have watched to find similar movies</h2>
-            <form hx-get="/movies/search-title" hx-target="#watched-movies">
-                <input type="text" name="title" autocomplete="off" placeholder="Find a movie by title"
-                    hx-get="/movies/search-title"
-                    hx-target="#title-suggestions"
-                    hx-trigger="keyup changed delay:400ms, search" />
-            </form>
+            <input type="text" name="title" autocomplete="off" placeholder="Find a movie by title"
+                hx-get="/movies/search-title"
+                hx-target="#title-suggestions"
+                hx-trigger="keyup changed delay:400ms, search" />
             <div id="title-suggestions"></div>
             <h4>Selected movies</h4>
             <div id="watched-movies"></div>
