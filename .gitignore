@@ -1,20 +1,7 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv
-
-# database
-tmdbdf.db
-chroma_data/
-
-# local env
-.env
-
-# docs
-docs/
+# OS/editor artifacts (package-level ignores live in backend/ and frontend/)
+.DS_Store
+Thumbs.db
+.idea/
+*.sw?
+*.log
+logs/
