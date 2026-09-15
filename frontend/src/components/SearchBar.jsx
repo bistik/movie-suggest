@@ -1,21 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useMockTitle } from "../hooks/movie";
-
-const POSTER_BASE = "https://image.tmdb.org/t/p/w92";
-
-function formatDate(value) {
-  const date = new Date(`${value}T00:00:00Z`);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function truncate(text, length = 120) {
-  return text.length > length ? `${text.slice(0, length).trimEnd()}...` : text;
-}
+import { useMockTitle, useMovie } from "../hooks/movie";
+import MovieCard from "./MovieCard";
 
 function SuggestionItem({ movie, active, onMouseDown, onMouseEnter }) {
   return (
@@ -26,21 +11,7 @@ function SuggestionItem({ movie, active, onMouseDown, onMouseEnter }) {
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
     >
-      <img
-        className="h-14 w-10 flex-shrink-0 rounded-sm object-cover"
-        src={`${POSTER_BASE}${movie.posterPath}`}
-        alt={`${movie.title} poster`}
-      />
-      <div className="min-w-0">
-        <div className="font-medium text-sm text-neutral-100">{movie.title}</div>
-        <div className="truncate text-xs text-neutral-400">
-          {truncate(movie.overview)}
-        </div>
-        <div className="flex gap-3 text-xs text-neutral-400">
-          <span>📅 {formatDate(movie.releaseDate)}</span>
-          <span>⭐ {movie.voteAverage.toFixed(2)}</span>
-        </div>
-      </div>
+      <MovieCard movie={movie} />
     </li>
   );
 }
@@ -51,6 +22,7 @@ export default function SearchBar() {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
   const { data, loading } = useMockTitle(query);
+  const { selectMovies, addSelectMovie } = useMovie();
 
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -65,6 +37,7 @@ export default function SearchBar() {
   const handleChange = (event) => {
     setActiveIndex(0);
     setQuery(event.target.value);
+    setOpen(event.target.value.trim().length >= 2);
   };
 
   const handleKeyDown = (event) => {
@@ -82,7 +55,7 @@ export default function SearchBar() {
         setActiveIndex((prev) => (prev - 1 + data.length) % data.length);
         break;
       case "Enter":
-        selectMovie(data[activeIndex]);
+        selectMovie(data[Math.min(activeIndex, data.length - 1)]);
         break;
       case "Escape":
         setOpen(false);
@@ -90,11 +63,16 @@ export default function SearchBar() {
     }
   };
 
-  // Placeholder selection handler; SelectedArea integration comes later.
   function selectMovie(movie) {
     if (!movie) return;
+    if (selectMovies.some((selected) => selected.id === movie.id)) {
+      setOpen(false);
+      setQuery("");
+      return;
+    }
+    addSelectMovie(movie);
     setOpen(false);
-    setQuery(movie.title);
+    setQuery("");
   }
 
   return (

@@ -1,12 +1,14 @@
-import { createContext, useState } from "react";
-
-const MovieContext = createContext();
+import { useState } from "react";
+import { MovieContext } from "./MovieContext";
 
 export function MovieProvider({ children }) {
   const [selectMovies, setSelectMovies] = useState([]);
   const [suggestMovies, setSuggestMovies] = useState([]);
   const addSelectMovie = (movie) => {
     setSelectMovies((prev) => [...prev, movie]);
+  };
+  const removeSelectMovie = (id) => {
+    setSelectMovies((prev) => prev.filter((movie) => movie.id !== id));
   };
   const addSuggestMovie = (movie) => {
     setSuggestMovies((prev) => [...prev, movie]);
@@ -16,6 +18,7 @@ export function MovieProvider({ children }) {
     selectMovies,
     suggestMovies,
     addSelectMovie,
+    removeSelectMovie,
     addSuggestMovie,
   };
 

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { MovieProvider } from "../components/MovieProvider";
+import { MovieContext } from "../components/MovieContext";
 
 export function useMovie() {
-  const context = useContext(MovieProvider);
+  const context = useContext(MovieContext);
 
   if (!context) {
     throw Error("Missing Movie context");
