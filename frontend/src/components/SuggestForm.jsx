@@ -2,13 +2,18 @@ import { useMovie } from "../hooks/movie";
 import { useMockSuggest } from "../hooks/movie";
 
 export default function SuggestForm() {
-  const { selectMovies, setSuggestMovies } = useMovie();
+  const { selectMovies, setSuggestMovies, setIsSuggesting } = useMovie();
   const { suggest, loading } = useMockSuggest();
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const movies = await suggest(selectMovies.map((movie) => movie.id));
-    setSuggestMovies(movies);
+    setIsSuggesting(true);
+    try {
+      const movies = await suggest(selectMovies.map((movie) => movie.id));
+      setSuggestMovies(movies);
+    } finally {
+      setIsSuggesting(false);
+    }
   }
 
   return (

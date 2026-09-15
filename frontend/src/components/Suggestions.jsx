@@ -1,11 +1,16 @@
 import { useMovie } from "../hooks/movie";
 import SuggestionMovieCard from "./SuggestionMovieCard";
+import SuggestionSkeleton from "./SuggestionSkeleton";
 
 export default function Suggestions() {
-  const { suggestMovies } = useMovie();
+  const { suggestMovies, isSuggesting } = useMovie();
+
+  if (isSuggesting) {
+    return <SuggestionSkeleton />;
+  }
 
   if (suggestMovies.length === 0) {
-    return <div className="text-neutral-400">No suggestions yet</div>;
+    return null;
   }
 
   return (

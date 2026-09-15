@@ -10,7 +10,7 @@ export default function SuggestionMovieCard({ movie }) {
         src={`${POSTER_BASE}${movie.posterPath}`}
         alt={`${movie.title} poster`}
       />
-      <div className="font-medium text-lg text-neutral-950">{movie.title}</div>
+      <div className="font-medium text-lg text-neutral-100">{movie.title}</div>
       <div className="mt-1 text-sm text-neutral-400">
         {truncate(movie.overview)}
       </div>

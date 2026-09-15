@@ -4,6 +4,7 @@ import { MovieContext } from "./MovieContext";
 export function MovieProvider({ children }) {
   const [selectMovies, setSelectMovies] = useState([]);
   const [suggestMovies, setSuggestMovies] = useState([]);
+  const [isSuggesting, setIsSuggesting] = useState(false);
   const addSelectMovie = (movie) => {
     setSelectMovies((prev) => [...prev, movie]);
   };
@@ -17,10 +18,12 @@ export function MovieProvider({ children }) {
   const values = {
     selectMovies,
     suggestMovies,
+    isSuggesting,
     addSelectMovie,
     removeSelectMovie,
     setSuggestMovies,
     addSuggestMovie,
+    setIsSuggesting,
   };
 
   return (
