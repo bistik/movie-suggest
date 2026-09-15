@@ -1,18 +1,6 @@
+import { formatDate, truncate } from "../utils/utils";
+
 const POSTER_BASE = "https://image.tmdb.org/t/p/w92";
-
-function formatDate(value) {
-  const date = new Date(`${value}T00:00:00Z`);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function truncate(text, length = 120) {
-  return text.length > length ? `${text.slice(0, length).trimEnd()}...` : text;
-}
 
 export default function MovieCard({ movie, large = false, actions = null }) {
   return (

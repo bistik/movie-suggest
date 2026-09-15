@@ -107,40 +107,44 @@ const MOCK_SUGGESTIONS = [
     title: "The Lost World: Jurassic Park",
     overview:
       "Four years after Jurassic Park's genetically bred dinosaurs destroyed its island, a second island has been revealed with even more awe-inspiring creatures.",
-    posterPath: "/qBIskkPFBPLIDogJvSdMxGfnzLT.jpg",
+    posterPath: "/7st3JW0xpMAkwB3dYfv3iqAwD8Y.jpg",
     releaseDate: "1997-05-23",
     voteAverage: 6.68,
     tmdbId: 330,
+    watched: ["Jurassic Park"],
   },
   {
     id: 5,
     title: "Jurassic Park III",
     overview:
       "Survivors of the original Jurassic Park incident are once again brought back to the island, this time to rescue a boy who stranded there after paragliding accident.",
-    posterPath: "/kqtupfOhds1CNohexLdLbRCi4HD.jpg",
+    posterPath: "/oQXj4NUfS3r3gHXtDOzcJgj1lLc.jpg",
     releaseDate: "2001-07-18",
     voteAverage: 6.19,
     tmdbId: 331,
+    watched: ["Jurassic Park"],
   },
   {
     id: 6,
     title: "Jurassic World",
     overview:
       "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.",
-    posterPath: "/qmEwWF2b3mexDtTHoPQMXpXtN4B.jpg",
+    posterPath: "/rhr4y79GpxQF9IsfJItRXVaoGs4.jpg",
     releaseDate: "2015-06-09",
     voteAverage: 6.55,
     tmdbId: 135397,
+    watched: ["Jurassic Park"],
   },
   {
     id: 7,
     title: "King Kong",
     overview:
       "Years after the Jurassic Park disaster, an adventurer leads an expedition to a mysterious island, where they discover a giant ape and prehistoric creatures.",
-    posterPath: "/g17fN4PLbkqo1fOIen3GrTRLaLL.jpg",
+    posterPath: "/6a2HY6UmD7XiDD3NokgaBAXEsD2.jpg",
     releaseDate: "2005-12-14",
     voteAverage: 6.98,
-    tmdbId: 26,
+    tmdbId: 254,
+    watched: ["The Conjuring"],
   },
 ];
 
