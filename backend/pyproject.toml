@@ -11,5 +11,13 @@ dependencies = [
     "sqlmodel>=0.0.42",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.fastapi]
 entrypoint = "app.main:app"
