@@ -19,6 +19,7 @@ export function MovieProvider({ children }) {
     suggestMovies,
     addSelectMovie,
     removeSelectMovie,
+    setSuggestMovies,
     addSuggestMovie,
   };
 

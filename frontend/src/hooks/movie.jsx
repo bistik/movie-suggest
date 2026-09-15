@@ -101,31 +101,67 @@ export function useMockTitle(query) {
   return { data, loading };
 }
 
+const MOCK_SUGGESTIONS = [
+  {
+    id: 4,
+    title: "The Lost World: Jurassic Park",
+    overview:
+      "Four years after Jurassic Park's genetically bred dinosaurs destroyed its island, a second island has been revealed with even more awe-inspiring creatures.",
+    posterPath: "/qBIskkPFBPLIDogJvSdMxGfnzLT.jpg",
+    releaseDate: "1997-05-23",
+    voteAverage: 6.68,
+    tmdbId: 330,
+  },
+  {
+    id: 5,
+    title: "Jurassic Park III",
+    overview:
+      "Survivors of the original Jurassic Park incident are once again brought back to the island, this time to rescue a boy who stranded there after paragliding accident.",
+    posterPath: "/kqtupfOhds1CNohexLdLbRCi4HD.jpg",
+    releaseDate: "2001-07-18",
+    voteAverage: 6.19,
+    tmdbId: 331,
+  },
+  {
+    id: 6,
+    title: "Jurassic World",
+    overview:
+      "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.",
+    posterPath: "/qmEwWF2b3mexDtTHoPQMXpXtN4B.jpg",
+    releaseDate: "2015-06-09",
+    voteAverage: 6.55,
+    tmdbId: 135397,
+  },
+  {
+    id: 7,
+    title: "King Kong",
+    overview:
+      "Years after the Jurassic Park disaster, an adventurer leads an expedition to a mysterious island, where they discover a giant ape and prehistoric creatures.",
+    posterPath: "/g17fN4PLbkqo1fOIen3GrTRLaLL.jpg",
+    releaseDate: "2005-12-14",
+    voteAverage: 6.98,
+    tmdbId: 26,
+  },
+];
+
 export function useMockSuggest() {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setData([
-        {
-          id: 3,
-          title: "Gone Baby Gone",
-          overview: "A movie overview",
-          posterPath: "/5BXDhjKZ4AL9VPxcygdG3oL60GP.jpg",
-        },
-        {
-          id: 4,
-          title: "Footloose",
-          overview: "A movie overview",
-          posterPath: "/cDUW5RWmyHcTxu7eg9eMqhBQy2J.jpg",
-        },
-      ]);
-      setLoading(false);
-    }, 3000); // Simulates network delay
+  function suggest(watchedIds) {
+    setLoading(true);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const result = MOCK_SUGGESTIONS.map((movie) => ({
+          ...movie,
+          watchedIds,
+        }));
+        setData(result);
+        setLoading(false);
+        resolve(result);
+      }, 3000); // Simulates network delay
+    });
+  }
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  return { data, loading };
+  return { data, loading, suggest };
 }
