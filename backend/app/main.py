@@ -79,6 +79,6 @@ async def suggest_similar(request: Request, ids: list[str] = Query(None)):
     int_ids = [int(id) for id in ids] if ids else []
     results = find_suggestions(int_ids)
     logger.info('suggestions for watched ids %s: %s', ids,
-                {sid: [w.id for w in watched] for sid, watched in connections.items()})
+                {movie.id: [w.id for w in watched] for movie, watched in results})
     return templates.TemplateResponse(request=request, name="movies/movie_suggest.html",
                                       context={"results": results, "no_selection": not ids})

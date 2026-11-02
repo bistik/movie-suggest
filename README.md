@@ -4,6 +4,7 @@ It uses the movie plot/summary to do a semantic search for similar movies.
 ## Run locally
 
 ```bash
+cd backend/
 uv sync
 uv run fastapi dev
 ```
